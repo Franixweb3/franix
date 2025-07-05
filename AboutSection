@@ -1,0 +1,147 @@
+import React, { useEffect, Children } from 'react'
+import { motion, useAnimation } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+const AboutSection = () => {
+  const controls = useAnimation()
+  const [ref, inView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  })
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible')
+    }
+  }, [controls, inView])
+  const containerVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  }
+  const itemVariants = {
+    hidden: {
+      y: 30,
+      opacity: 0,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        ease: 'easeOut',
+      },
+    },
+  }
+  return (
+    <motion.section
+      ref={ref}
+      className="relative py-20 overflow-hidden"
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <motion.div
+            variants={itemVariants}
+            className="w-full md:w-1/2 order-2 md:order-1"
+          >
+            <div className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-blue-400 mb-4">
+              About Franix
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Next-Generation
+              </span>
+              <span className="block text-white">Web3 Ecosystem</span>
+            </h2>
+            <p className="text-gray-400 mb-6">
+              Franix is revolutionizing the way we interact with blockchain
+              technology. Our platform combines cutting-edge security features
+              with an intuitive user interface to make decentralized finance
+              accessible to everyone.
+            </p>
+            <p className="text-gray-400 mb-6">
+              Built by a team of industry veterans and blockchain experts,
+              Franix aims to bridge the gap between traditional finance and the
+              crypto world, enabling seamless transactions and investment
+              opportunities for users globally.
+            </p>
+            <div className="flex flex-wrap gap-4 mt-8">
+              {['Secure', 'Scalable', 'Interoperable', 'User-Friendly'].map(
+                (tag, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300"
+                  >
+                    {tag}
+                  </div>
+                ),
+              )}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={itemVariants}
+            className="w-full md:w-1/2 order-1 md:order-2 flex justify-center"
+          >
+            <div className="relative">
+              <motion.div
+                className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-600/30 to-purple-600/30 blur-xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                }}
+              />
+              <div className="relative z-10 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-2xl border border-white/10 p-1 backdrop-blur-sm">
+                <div className="bg-black rounded-xl overflow-hidden">
+                  <div className="aspect-w-16 aspect-h-9 w-full h-64 md:h-80">
+                    <div className="w-full h-full bg-grid-pattern bg-black flex items-center justify-center p-8">
+                      <div className="text-center">
+                        <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-4">
+                          Franix
+                        </div>
+                        <div className="text-gray-400 mb-6">
+                          The Future of Finance
+                        </div>
+                        <div className="flex justify-center space-x-4">
+                          {[1, 2, 3].map((i) => (
+                            <motion.div
+                              key={i}
+                              className="w-3 h-3 rounded-full bg-blue-500"
+                              animate={{
+                                y: [-5, 5, -5],
+                                opacity: [0.5, 1, 0.5],
+                              }}
+                              transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
+  )
+}
+export default AboutSection
